@@ -5,6 +5,6 @@
      ├── frontend                # Frontend files
      ├── server                  # Backend files
           ├── db                      # Database migrations
-     ├── LICENSE
+     ├── LICENSE  
      └── README.md 
   
