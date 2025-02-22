@@ -5,7 +5,10 @@
   "scripts": {
     "start": "bun server/index.ts",
     "dev": "bun --watch server/index.ts",
-    "build": "bun build --compile --minify --sourcemap --bytecode server/index.ts --outfile sc2_app"
+    "bundle": "bun build --compile --minify --sourcemap --bytecode server/index.ts --outfile sc2_app",
+    "docker:image": "docker build -t sc2 container/.",
+    "docker:network": "docker network create sc2_network",
+    "build": "bun install && cd frontend && bun install && bun run build && cd .. && bun run docker:image && bun run docker:network"
   },
   "devDependencies": {
     "drizzle-kit": "^0.24.2"
