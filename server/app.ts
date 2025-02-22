@@ -1,5 +1,6 @@
 import { Hono } from 'hono'
 import { logger } from 'hono/logger'
+import { containersRoute } from './routes/containers'
 import { authRoute } from "./routes/auth"
 import { serveStatic } from 'hono/bun'
 import { HTTPException } from 'hono/http-exception'
@@ -20,7 +21,9 @@ app.onError((err, c) => {
 
 const apiRoutes = app.basePath("/api")
 .route("/", authRoute)
-//TODO: add container routes
+.route('/containers', containersRoute)
+
+app.get("/vnc", serveStatic({path: './frontend/dist/vnc.html'}))
 
 app.get("*", serveStatic({root: './frontend/dist'}))
 app.get("*", serveStatic({path: './frontend/dist/index.html'}))
