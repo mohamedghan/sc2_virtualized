@@ -14,20 +14,6 @@ import {
 import { PlayIcon, PauseIcon, PlusIcon } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 
-//TODO: remove this fake response
-const skel = {
-  State: {
-    Running: false,
-    Dead: false,
-    Status: "created"
-  },
-  Name: "heuristic_lamarr",
-  Id: "c8c2263040451645f2ad45caa9f1ff23c3d597f1da8b4b0e4a1afc494f6511c7",
-  Config: {
-    Image: "sc2: latest"
-  }
-}
-
 const buttonLoading = <Button disabled variant="outline" size="sm"><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Wait</Button>
 export default function Index() {
   const queryClient = useQueryClient();
@@ -38,15 +24,14 @@ export default function Index() {
   })
   const smutation = useMutation({
     mutationFn: async ({state}) => {
-      // TODO: start or stop container depending on state
+      const res = await api.containers.change.$post({json:{state}})
       queryClient.invalidateQueries({ queryKey: ['get-containers'] })
-      // TODO: replace with server response
-      return skel
+      return res
     },
   })
 
   const handleCreateContainer = async () => {
-    // TODO: create a new container
+    await api.containers.$post()
     queryClient.invalidateQueries({queryKey: ['get-containers']})
   }
 
@@ -185,8 +170,11 @@ export default function Index() {
 }
 
 async function getContainers() {
-  // TODO: get the user container
-  return skel
+  const res = await api.containers.$get()
+  if (!res.ok) {
+    throw new Error('error !')
+  }
+  return await res.json()
 }
 
 export const Route = createFileRoute('/_auth/')({

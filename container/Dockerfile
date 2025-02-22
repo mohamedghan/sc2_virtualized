@@ -46,6 +46,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN useradd -m hacker -s /bin/bash
+RUN groupadd wireshark
+RUN usermod -aG wireshark hacker
 USER hacker
 ENV USER=hacker
 

@@ -13,15 +13,15 @@ export default defineConfig({
   },
   server: {
     proxy: {
+      "^/api/containers/ws$": { 
+        target: "ws://localhost:3000",
+        ws:true,
+        rewriteWsOrigin: true,
+      },
       "^/api/": {
         target: "http://127.0.0.1:3000",
         ws:true,
         changeOrigin: true,
-      },
-      "^/api/containers/ws$": { 
-        target: "ws://localhost:3000",
-        ws:true,
-        rewriteWsOrigin: false,
       },        
       "/vnc": {
         target: "http://127.0.0.1:3000",
