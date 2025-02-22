@@ -1,4 +1,4 @@
-### Folder structure
+### Folder structure   
 
      .
      ├── container               # Container image files needed to build the docker container 
